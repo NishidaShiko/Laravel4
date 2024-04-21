@@ -17,6 +17,10 @@ class TaskController extends Controller
      */
     public function list()
     {
+        // 一覧の取得
+        $list = TaskModel::get();
+$sql = TaskModel::toSql();
+echo "<pre>\n"; var_dump($sql, $list); exit;
         return view('task.list');
     }
     /**
