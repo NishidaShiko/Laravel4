@@ -19,8 +19,9 @@ class TaskController extends Controller
     {
         // 一覧の取得
         $list = TaskModel::where('user_id', Auth::id())->get();
-// $sql = TaskModel::where('user_id', Auth::id())->toSql();
-// echo "<pre>\n"; var_dump($sql, $list); exit;
+//$sql = TaskModel::where('user_id', Auth::id())->toSql();
+//echo "<pre>\n"; var_dump($sql, $list); exit;
+        //
         return view('task.list', ['list' => $list]);
     }
     /**
@@ -41,12 +42,16 @@ class TaskController extends Controller
         // テーブルへのINSERT
         try {
             $r = TaskModel::create($datum);
-var_dump($r); exit;
         } catch(\Throwable $e) {
             // XXX 本当はログに書く等の処理をする。今回は一端「出力する」だけ
             echo $e->getMessage();
             exit;
         }
 
+        // タスク登録成功
+        $request->session()->flash('front.task_register_success', true);
+
+        //
+        return redirect('/task/list');
     }
 }
