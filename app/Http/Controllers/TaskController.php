@@ -63,10 +63,19 @@ var_dump($sql);
             exit;
         }
 
+
         // タスク登録成功
         $request->session()->flash('front.task_register_success', true);
 
         //
         return redirect('/task/list');
+
+    }
+    /**
+     * タスクの詳細閲覧
+     */
+    public function detail($task_id)
+    {
+        var_dump($task_id); exit;
     }
 }
