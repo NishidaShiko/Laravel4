@@ -9,18 +9,22 @@ use App\Models\Task as TaskModel;
 
 
 class TaskController extends Controller
-{
-    /**
-     * タスク一覧ページを表示する
-     *
-     * @return \Illuminate\View\View
-     */
-    public function list()
     {
         // 一覧の取得
-        $list = TaskModel::where('user_id', Auth::id())->get();
-//$sql = TaskModel::where('user_id', Auth::id())->toSql();
+        $list = TaskModel::where('user_id', Auth::id())
+                         ->orderBy('priority', 'DESC')
+                         ->orderBy('period')
+                         ->orderBy('created_at')
+                         ->get();
+/*
+$sql = TaskModel::where('user_id', Auth::id())
+                 ->orderBy('priority', 'DESC')
+                 ->orderBy('period')
+                 ->orderBy('created_at')
+                 ->toSql();
 //echo "<pre>\n"; var_dump($sql, $list); exit;
+var_dump($sql);
+*/
         //
         return view('task.list', ['list' => $list]);
     }
