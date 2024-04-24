@@ -7,15 +7,25 @@ use App\Http\Requests\TaskRegisterPostRequest;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Task as TaskModel;
 
-
 class TaskController extends Controller
+{
+    /**
+     * タスク一覧ページ を表示する
+     *
+     * @return \Illuminate\View\View
+     */
+    public function list()
     {
+        // 1Page辺りの表示アイテム数を設定
+        $per_page = 20;
+
         // 一覧の取得
         $list = TaskModel::where('user_id', Auth::id())
                          ->orderBy('priority', 'DESC')
                          ->orderBy('period')
                          ->orderBy('created_at')
-                         ->get();
+                         ->paginate($per_page);
+                        // ->get();
 /*
 $sql = TaskModel::where('user_id', Auth::id())
                  ->orderBy('priority', 'DESC')
@@ -28,6 +38,7 @@ var_dump($sql);
         //
         return view('task.list', ['list' => $list]);
     }
+
     /**
      * タスクの新規登録
      */
