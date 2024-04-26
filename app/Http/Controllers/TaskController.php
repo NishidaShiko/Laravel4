@@ -76,6 +76,17 @@ var_dump($sql);
      */
     public function detail($task_id)
     {
-        var_dump($task_id); exit;
+        // task_idのレコードを取得する
+        $task = TaskModel::find($task_id);
+        if ($task === null) {
+            return redirect('/task/list');
+        }
+        // 本人以外のタスクならNGとする
+        if ($task->user_id !== Auth::id()) {
+            return redirect('/task/list');
+        }
+
+        // テンプレートに「取得したレコード」の情報を渡す
+        return view('task.detail', ['task => $task']);
     }
 }
