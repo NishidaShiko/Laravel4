@@ -87,6 +87,6 @@ var_dump($sql);
         }
 
         // テンプレートに「取得したレコード」の情報を渡す
-        return view('task.detail', ['task => $task']);
+        return view('task.detail', ['task' => $task]);
     }
 }
