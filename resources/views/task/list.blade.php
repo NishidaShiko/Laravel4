@@ -9,6 +9,9 @@
             @if (session('front.task_register_success') == true)
                 タスクを登録しました！！<br>
             @endif
+            @if(session('front.task_delete_success') == true)
+               　タスクを削除しました!!<br>
+            @endif
             @if ($errors->any())
                 <div>
                 @foreach ($errors->all() as $error)
@@ -35,13 +38,14 @@
             <th>期限
             <th>重要度
 @foreach ($list as $task)
+@csrf
         <tr>
             <td>{{ $task->name }}
             <td>{{ $task->period }}
             <td>{{ $task->getPriorityString() }}
             <td><a href="{{ route('detail', ['task_id' => $task->id]) }}">詳細閲覧</a>
             <td><a href="{{ route('edit',['task_id' =>$task->id]) }}">編集</a>
-            <td><form action="./top.html"><button>完了</button></form>
+            <td><form action="{{ route('complete', ['task_id' => $task->id]) }}" method="post"> @csrf <button onclick='return confirm("このタスクを「完了」にします。よろしいですか？");' >完了</button></form>
 @endforeach
         </table>
         <!-- ページネーション -->

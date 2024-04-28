@@ -6,22 +6,22 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\TaskRegisterPostRequest;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Task as TaskModel;
-
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\DB;
+use App\Models\CompletedTask as CompletedTaskModel;
 
 class TaskController extends Controller
 {
     /**
      * タスク一覧ページ を表示する
-     * 
+     *
      * @return \Illuminate\View\View
      */
     public function list()
     {
         // 1Page辺りの表示アイテム数を設定
         $per_page = 20;
-        
+
         // 一覧の取得
         $list = TaskModel::where('user_id', Auth::id())
                          ->orderBy('priority', 'DESC')
@@ -87,8 +87,7 @@ var_dump($sql);
      */
     public function edit($task_id)
     {
-        // task_idのレコードを取得する(引数で取得)
-        // テンプレートに「取得したレコード」の情報を渡す
+        //
         return $this->singleTaskRender($task_id, 'task.edit');
     }
 
@@ -158,5 +157,47 @@ var_dump($sql);
         // 詳細閲覧画面にリダイレクトする
         return redirect(route('detail', ['task_id' => $task->id]));
     }
+    /**
+     * タスクの完了
+     */
+    public function complete($task_id)
+    {
+        /* タスクを完了テーブルに移動させる */
+        try {
+            // トランザクション開始
+            DB::beginTransaction();
 
+            // task_idのレコードを取得する
+            $task = $this->getTaskModel($task_id);
+            if ($task === null) {
+                // task_idが不正なのでトランザクション終了
+                throw new \Exception('');
+            }
+
+            // tasks側を削除する
+            $task->delete();
+//var_dump($task->toArray()); exit;
+
+            // completed_tasks側にinsertする
+            $dask_datum = $task->toArray();
+            unset($dask_datum['created_at']);
+            unset($dask_datum['updated_at']);
+            $r = CompletedTaskModel::create($dask_datum);
+            if ($r === null) {
+                // insertで失敗したのでトランザクション終了
+                throw new \Exception('');
+            }
+echo '処理成功'; exit;
+
+            // トランザクション終了
+            DB::commit();
+        } catch(\Throwable $e) {
+var_dump($e->getMessage()); exit;
+            // トランザクション異常終了
+            DB::rollBack();
+        }
+
+        // 一覧に遷移する
+        return redirect('/task/list');
+    }
 }
