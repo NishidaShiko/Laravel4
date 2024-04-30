@@ -234,7 +234,24 @@ var_dump($sql);
         $file->fputcsv(array_values($data_list));
         // CSVをファイルに書き込む(出力する)
         foreach($list as $datum) {
-            $file->fputcsv($datum->toArray());
+            $awk = []; // 作業領域の確保
+            // $data_listに書いてある順番に、書いてある要素だけを $awkに格納する
+            foreach($data_list as $k => $v) {
+                if ($k === 'priority') {
+                    $awk[] = $datum->getPriorityString();
+                } else {
+                    $awk[] = $datum->$k;
+                }
+            }
+            // CSVの1行を出力
+            $file->fputcsv($awk);
+
+        // ダウンロードファイル名の作成
+        $download_filename = 'task_list.' . date('Ymd') . '.csv';
+        // CSVを出力する
+        return response($csv_string_sjis)
+                ->header('Content-Type', 'text/csv')
+                ->header('Content-Disposition', 'attachment; filename="' . $download_filename . '"');
         }
 
         // 現在のバッファの中身を取得し、出力バッファを削除する
