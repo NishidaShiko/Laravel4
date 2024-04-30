@@ -55,7 +55,7 @@ var_dump($sql);
             $r = TaskModel::create($datum);
         } catch(\Throwable $e) {
             // XXX 本当はログに書く等の処理をする。今回は一端「出力する」だけ
-            // echo $e->getMessage();
+            echo $e->getMessage();
             // exit;
         }
 
@@ -212,6 +212,15 @@ var_dump($sql);
      */
     public function csvDownload()
     {
+        $data_list = [
+            'id' => 'タスクID',
+            'name' => 'タスク名',
+            'priority' => '重要度',
+            'period' => '期限',
+            'detail' => 'タスク詳細',
+            'crared_at' => 'タスク作成日',
+            'updated_at' => 'タスク修正日',
+            ];
         /* 「ダウンロードさせたいCSV」を作成する */
         // データを取得する
         $list = $this->getListBuilder()->get();
@@ -219,8 +228,10 @@ var_dump($sql);
         // バッファリングを開始
         ob_start();
 
-        // 「書き込み先を"出力"にした」ファイルハンドルを作成する
+        // 出力用のファイルハンドルを作成する
         $file = new \SplFileObject('php://output', 'w');
+        // ヘッダを書き込む
+        $file->fputcsv(array_values($data_list));
         // CSVをファイルに書き込む(出力する)
         foreach($list as $datum) {
             $file->fputcsv($datum->toArray());
