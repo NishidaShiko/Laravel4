@@ -14,7 +14,7 @@ class TaskController extends Controller
 {
     /**
      * タスク一覧ページ を表示する
-     *
+     * 
      * @return \Illuminate\View\View
      */
     public function list()
@@ -23,18 +23,11 @@ class TaskController extends Controller
         $per_page = 20;
 
         // 一覧の取得
-        $list = TaskModel::where('user_id', Auth::id())
-                         ->orderBy('priority', 'DESC')
-                         ->orderBy('period')
-                         ->orderBy('created_at')
-                         ->paginate($per_page);
-                        // ->get();
+        $list = $this->getListBuilder()
+                     ->paginate($per_page);
 /*
-$sql = TaskModel::where('user_id', Auth::id())
-                 ->orderBy('priority', 'DESC')
-                 ->orderBy('period')
-                 ->orderBy('created_at')
-                 ->toSql();
+$sql = $this->getListBuilder()
+            ->toSql();
 //echo "<pre>\n"; var_dump($sql, $list); exit;
 var_dump($sql);
 */
@@ -203,5 +196,20 @@ var_dump($sql);
 
         // 一覧に遷移する
         return redirect('/task/list');
+    }
+    /**
+     * CSV ダウンロード
+     */
+    public function csvDownload()
+    {
+        /* 「ダウンロードさせたいCSV」を作成する */
+        // データを取得する
+        $list = $this->getListBuilder()->get();
+var_dump($list->toArray()); exit;
+
+        // CSVを出力する
+        return response('1,2,3')
+                ->header('Content-Type', 'text/csv')
+                ->header('Content-Disposition', 'attachment; filename="test.csv"');
     }
 }
