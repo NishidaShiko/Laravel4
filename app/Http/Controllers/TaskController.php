@@ -157,10 +157,10 @@ var_dump($sql);
         // 詳細閲覧画面にリダイレクトする
         return redirect(route('detail', ['task_id' => $task->id]));
     }
-    /**
+       /**
      * タスクの完了
      */
-    public function complete($task_id)
+    public function complete(Request $request, $task_id)
     {
         /* タスクを完了テーブルに移動させる */
         try {
@@ -187,14 +187,18 @@ var_dump($sql);
                 // insertで失敗したのでトランザクション終了
                 throw new \Exception('');
             }
-echo '処理成功'; exit;
+//echo '処理成功'; exit;
 
             // トランザクション終了
             DB::commit();
+            // 完了メッセージ出力
+            $request->session()->flash('front.task_completed_success', true);
         } catch(\Throwable $e) {
-var_dump($e->getMessage()); exit;
+//var_dump($e->getMessage()); exit;
             // トランザクション異常終了
             DB::rollBack();
+            // 完了失敗メッセージ出力
+            $request->session()->flash('front.task_completed_failure', true);
         }
 
         // 一覧に遷移する
