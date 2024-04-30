@@ -14,7 +14,7 @@ class TaskController extends Controller
 {
     /**
      * タスク一覧ページ を表示する
-     * 
+     *
      * @return \Illuminate\View\View
      */
     public function list()
@@ -55,8 +55,8 @@ var_dump($sql);
             $r = TaskModel::create($datum);
         } catch(\Throwable $e) {
             // XXX 本当はログに書く等の処理をする。今回は一端「出力する」だけ
-            echo $e->getMessage();
-            exit;
+            // echo $e->getMessage();
+            // exit;
         }
 
         // タスク登録成功
@@ -197,6 +197,16 @@ var_dump($sql);
         // 一覧に遷移する
         return redirect('/task/list');
     }
+        /**
+     * 一覧用の Illuminate\Database\Eloquent\Builder インスタンスの取得
+     */
+    protected function getListBuilder()
+    {
+        return TaskModel::where('user_id', Auth::id())
+                     ->orderBy('priority', 'DESC')
+                     ->orderBy('period')
+                     ->orderBy('created_at');
+    }
     /**
      * CSV ダウンロード
      */
@@ -205,10 +215,25 @@ var_dump($sql);
         /* 「ダウンロードさせたいCSV」を作成する */
         // データを取得する
         $list = $this->getListBuilder()->get();
-var_dump($list->toArray()); exit;
+
+        // バッファリングを開始
+        ob_start();
+
+        // 「書き込み先を"出力"にした」ファイルハンドルを作成する
+        $file = new \SplFileObject('php://output', 'w');
+        // CSVをファイルに書き込む(出力する)
+        foreach($list as $datum) {
+            $file->fputcsv($datum->toArray());
+        }
+
+        // 現在のバッファの中身を取得し、出力バッファを削除する
+        $csv_string = ob_get_clean();
+
+        // 文字コードを変換する
+        $csv_string_sjis = mb_convert_encoding($csv_string, 'SJIS', 'UTF-8');
 
         // CSVを出力する
-        return response('1,2,3')
+        return response($csv_string_sjis)
                 ->header('Content-Type', 'text/csv')
                 ->header('Content-Disposition', 'attachment; filename="test.csv"');
     }
