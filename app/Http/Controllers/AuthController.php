@@ -11,12 +11,12 @@ class AuthController extends Controller
 {
     /**
      * トップページ を表示する
-     *
+     * 
      * @return \Illuminate\View\View
      */
     public function index()
     {
-        return view('admin.index');
+        return view('index');
     }
 
     /**
