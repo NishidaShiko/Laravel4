@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\UserController as AdminUserController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\WelcomeController;
 use App\Http\Controllers\AuthController;
@@ -43,6 +44,7 @@ Route::prefix('/admin')->group(function () {
     Route::post('/login', [AdminAuthController::class, 'login'])->name('admin.login');
     Route::middleware(['auth:admin'])->group(function () {
         Route::get('/top', [AdminHomeController::class, 'top'])->name('admin.top');
+        Route::get('/user/list', [AdminUserController::class, 'list'])->name('admin.user.list');
     });
     Route::get('/logout', [AdminAuthController::class, 'logout']);
 });

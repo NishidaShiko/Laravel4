@@ -8,7 +8,7 @@ class HomeController extends Controller
 {
     /**
      * トップページを表示する
-     * 
+     *
      * @retrun \Illuminate\View\View
      */
      public function top()
