@@ -9,6 +9,7 @@
             {{ $error }}<br>
         @endforeach
         </div>
+        @endif
         <form action="/admin/login" method="post">
             @csrf
             ログインID:<input name="login_id" value="{{ old('login_id') }}"><br>
