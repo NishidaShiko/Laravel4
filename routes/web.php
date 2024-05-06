@@ -8,6 +8,7 @@ use App\Http\Controllers\TaskController;
 use App\Http\Controllers\TestController;
 use App\Http\Controllers\Admin\AuthController as AdminAuthController;
 use App\Http\Controllers\Admin\HomeController as AdminHomeController;
+use App\Http\Controllers\CompletedTaskController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -57,3 +58,5 @@ Route::get('/welcome/second', [WelcomeController::class, 'second']);
 // form入力テスト用
 Route::get('/test', [TestController::class, 'index']);
 Route::post('/test/input', [TestController::class, 'input']);
+
+// 「完了タスク」の一覧表示課題用
