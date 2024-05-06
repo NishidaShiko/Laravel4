@@ -2,18 +2,18 @@
 
 {{-- メインコンテンツ --}}
 @section('contets')
-        <h1>管理画面　ログイン</h1>
+        <h1>管理画面 ログイン</h1>
         @if ($errors->any())
-        <div>
+            <div>
             @foreach ($errors->all() as $error)
-            {{ $error }}<br>
-        @endforeach
-        </div>
+                {{ $error }}<br>
+            @endforeach
+            </div>
         @endif
         <form action="/admin/login" method="post">
             @csrf
-            ログインID:<input name="login_id" value="{{ old('login_id') }}"><br>
-            パスワード:<input name="password" type="password"><br>
-            <button>ログインする</button>
+            ログインID：<input name="login_id" value="{{ old('login_id') }}"><br>
+            パスワード：<input  name="password" type="password"><br>
+            <button class="btn btn-primary mb-3">ログインする</button>
         </form>
 @endsection
