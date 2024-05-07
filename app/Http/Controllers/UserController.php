@@ -10,8 +10,8 @@ use Illuminate\Support\Facades\Auth;
 class UserController extends Controller
 {
     // ユーザー登録ページ
-        public function index()
+        public function register()
     {
-        return view('index');
+        return view('register');
     }
 }
