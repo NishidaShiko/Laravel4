@@ -1,7 +1,7 @@
 @extends('layout')
 
 @section('contets')
-        <h1>ログイン</h1>
+        <h1>ユーザー登録</h1>
         @if ($errors->any())
             <div>
             @foreach ($errors->all() as $error)
@@ -11,9 +11,9 @@
         @endif
         <form action="/login" method="post">
             @csrf
+            名前: <input name="name" value="{{ old('name') }}"><br>
             email：<input name="email" value="{{ old('email') }}"><br>
             パスワード：<input  name="password" type="password"><br>
-            <button>ログインする</button><br>
-        <a href="./index.html">会員登録</a><br>
+            <button>登録する</button><br>
         </form>
 @endsection
