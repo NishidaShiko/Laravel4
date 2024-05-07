@@ -10,7 +10,7 @@ use App\Http\Controllers\Admin\HomeController as AdminHomeController;
 use App\Http\Controllers\Admin\UserController as AdminUserController;
 
 use App\Http\Controllers\CompletedTaskController;
-use App\Http\Controllers\Usercontroller;
+use App\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
