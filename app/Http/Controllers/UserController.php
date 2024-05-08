@@ -24,6 +24,6 @@ class UserController extends Controller
         $email = $request->input('email');
         $pass = $request->input('password');
         
-        // return view('user.input');
+         return view('user.input');
     }
 }
