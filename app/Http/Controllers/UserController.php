@@ -6,6 +6,8 @@ namespace App\Http\Controllers;
 use App\Http\Requests\UserRegisterPost;
 use App\Http\Controllers\Controller;
 use App\Models\User as UserModel;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
