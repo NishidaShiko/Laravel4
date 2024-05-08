@@ -1,7 +1,7 @@
 @extends('layout')
 
 @section('contets')
-        <h1>ログイン</h1
+        <h1>ログイン</h1>
          @if (session('front.task_register_success') == true)
          ユーザを登録しました！！<br>
         @endif

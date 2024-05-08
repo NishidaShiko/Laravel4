@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\UserRegisterPost;
 use App\Http\Controllers\Controller;
+use App\Models\User as UserModel;
 
 class UserController extends Controller
 {
@@ -18,11 +19,16 @@ class UserController extends Controller
     {
         // データの取得
         $validatedData = $request->validated();
+        
+        // パスワードのハッシュ化
+        $datum['password'] = Hash::make($datum['password']);
+        
+        try{
+        $r =UserModel::create($datum);
+        }catch(Throwable $e){
+        }
+         $request->session()->flash('front.task_register_success', true);
 
-         $name = $request->input('name');
-        $email = $request->input('email');
-        $pass = $request->input('password');
-
-         return view('user.input');
+         return redirect('/user/input');
     }
 }
