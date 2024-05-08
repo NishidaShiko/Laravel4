@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Request\UserRegisterPost;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
