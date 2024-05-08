@@ -12,6 +12,18 @@ class UserController extends Controller
     // ユーザー登録ページ
         public function register()
     {
-        return view('register');
+        return view('user/register');
+    }
+    // 登録する
+    public function input(UserPostRequest $request)
+    {
+        // データの取得
+        $validatedData = $request->validated();
+        
+         $name = $request->input('name');
+        $email = $request->input('email');
+        $pass = $request->input('password');
+        
+        // return view('user.input');
     }
 }
