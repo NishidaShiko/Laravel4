@@ -20,7 +20,7 @@ class UserController extends Controller
     public function input(UserRegisterPost $request)
     {
         // データの取得
-        $validatedData = $request->validated();
+        $datum = $request->validated();
         
         // パスワードのハッシュ化
         $datum['password'] = Hash::make($datum['password']);
