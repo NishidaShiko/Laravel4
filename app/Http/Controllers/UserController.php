@@ -30,7 +30,7 @@ class UserController extends Controller
         }catch(Throwable $e){
         }
          $request->session()->flash('front.task_register_success', true);
-
-         return redirect('/user/input');
+ 
+         return redirect('/');
     }
 }
