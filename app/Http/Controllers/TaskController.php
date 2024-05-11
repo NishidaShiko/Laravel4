@@ -225,7 +225,7 @@ var_dump($sql);
                      ->orderBy('period')
                      ->orderBy('created_at');
     }
-    /**
+        /**
      * CSV ダウンロード
      */
     public function csvDownload()
@@ -236,9 +236,10 @@ var_dump($sql);
             'priority' => '重要度',
             'period' => '期限',
             'detail' => 'タスク詳細',
-            'crared_at' => 'タスク作成日',
+            'created_at' => 'タスク作成日',
             'updated_at' => 'タスク修正日',
-            ];
+        ];
+
         /* 「ダウンロードさせたいCSV」を作成する */
         // データを取得する
         $list = $this->getListBuilder()->get();
@@ -252,24 +253,7 @@ var_dump($sql);
         $file->fputcsv(array_values($data_list));
         // CSVをファイルに書き込む(出力する)
         foreach($list as $datum) {
-            $awk = []; // 作業領域の確保
-            // $data_listに書いてある順番に、書いてある要素だけを $awkに格納する
-            foreach($data_list as $k => $v) {
-                if ($k === 'priority') {
-                    $awk[] = $datum->getPriorityString();
-                } else {
-                    $awk[] = $datum->$k;
-                }
-            }
-            // CSVの1行を出力
-            $file->fputcsv($awk);
-
-        // ダウンロードファイル名の作成
-        $download_filename = 'task_list.' . date('Ymd') . '.csv';
-        // CSVを出力する
-        return response($csv_string_sjis)
-                ->header('Content-Type', 'text/csv')
-                ->header('Content-Disposition', 'attachment; filename="' . $download_filename . '"');
+            $file->fputcsv($datum->toArray());
         }
 
         // 現在のバッファの中身を取得し、出力バッファを削除する
