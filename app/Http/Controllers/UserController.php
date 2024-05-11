@@ -33,10 +33,10 @@ class UserController extends Controller
 
          return redirect('/');
 
-    // 登録完了
+    // ユーザを登録完了
         $request->session()->flash('front.user_register_success', true);
 
 
-        return redirect('/user/input');
+        return redirect('/index');
     }
 }
