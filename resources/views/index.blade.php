@@ -2,7 +2,7 @@
 
 @section('contets')
         <h1>ログイン</h1>
-         @if (session('front.user_register_success') == true)
+         @if (session('front.task_register_success') == true)
              ユーザを登録しました！！<br>
             @endif
         @if ($errors->any())
