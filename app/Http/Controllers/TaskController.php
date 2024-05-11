@@ -150,6 +150,24 @@ var_dump($sql);
         // 詳細閲覧画面にリダイレクトする
         return redirect(route('detail', ['task_id' => $task->id]));
     }
+
+        /**
+     * 削除処理
+     */
+    public function delete(Request $request, $task_id)
+    {
+        // task_idのレコードを取得する
+        $task = $this->getTaskModel($task_id);
+
+        // タスクを削除する
+        if ($task !== null) {
+            $task->delete();
+            $request->session()->flash('front.task_delete_success', true);
+        }
+
+        // 一覧に遷移する
+        return redirect('/task/list');
+    }
        /**
      * タスクの完了
      */
