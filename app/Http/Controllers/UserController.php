@@ -32,5 +32,11 @@ class UserController extends Controller
          $request->session()->flash('front.task_register_success', true);
  
          return redirect('/');
+         
+    // 登録完了
+        $request->session()->flash('front.task_register_success', true);
+
+
+        return redirect('/user/input');
     }
 }
