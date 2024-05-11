@@ -21,20 +21,20 @@ class UserController extends Controller
     {
         // データの取得
         $datum = $request->validated();
-        
+
         // パスワードのハッシュ化
         $datum['password'] = Hash::make($datum['password']);
-        
+
         try{
         $r =UserModel::create($datum);
         }catch(Throwable $e){
         }
          $request->session()->flash('front.task_register_success', true);
- 
+
          return redirect('/');
-         
+
     // 登録完了
-        $request->session()->flash('front.task_register_success', true);
+        $request->session()->flash('front.user_register_success', true);
 
 
         return redirect('/user/input');
